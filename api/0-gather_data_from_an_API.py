@@ -1,13 +1,9 @@
 #!/usr/bin/python3
 
-# import from urllib, json and sys
-import urllib.request
-import json
+import requests
 import sys
 
-# check whether the script is run as the main program 
 if __name__ == "__main__":
-    # check if the there is exactly one command-line argument
     if len(sys.argv) != 2 or not sys.argv[1].isdigit():
         print("Usage: python 0-gather_data_from_an_API.py <employee_id>")
         sys.exit(1)
@@ -18,18 +14,15 @@ if __name__ == "__main__":
     base_url = "https://jsonplaceholder.typicode.com"
 
     # Fetch user data
-    user_url = f"{base_url}/users/{employee_id}"
-    user_response = urllib.request.urlopen(user_url)
-    user_data = json.loads(user_response.read().decode())
+    user_response = requests.get(f"{base_url}/users/{employee_id}")
+    todos_response = requests.get(f"{base_url}/todos?userId={employee_id}")
 
-    # Fetch TODO list data
-    todos_url = f"{base_url}/todos?userId={employee_id}"
-    todos_response = urllib.request.urlopen(todos_url)
-    todos_data = json.loads(todos_response.read().decode())
-
-    if "id" not in user_data:
+    if user_response.status_code != 200:
         print("Employee not found")
         sys.exit(1)
+
+    user_data = user_response.json()
+    todos_data = todos_response.json()
 
     employee_name = user_data["name"]
 
