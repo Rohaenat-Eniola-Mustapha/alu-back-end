@@ -33,8 +33,9 @@ if __name__ == "__main__":
     total_number_of_tasks = len(todos_data)
 
     """Print employee information"""
-    print(f"Employee {employee_name} is done with tasks({number_of_done_tasks}/{total_number_of_tasks}):")
+    print(f"Employee {employee_name} is done with tasks
+          ({number_of_done_tasks}/{total_number_of_tasks}):")
 
     """Print completed task titles"""
-    for task in completed_tasks:
-        print(f"\t{task['title']}")
+for task in completed_tasks:
+      print(f"\t{task['title']}")
