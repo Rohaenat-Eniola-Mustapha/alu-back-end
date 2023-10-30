@@ -1,10 +1,13 @@
 #!/usr/bin/python3
 
+# import from urllib, json and sys
 import urllib.request
 import json
 import sys
 
+# check whether the script is run as the main program 
 if __name__ == "__main__":
+    # check if the there is exactly one command-line argument
     if len(sys.argv) != 2 or not sys.argv[1].isdigit():
         print("Usage: python 0-gather_data_from_an_API.py <employee_id>")
         sys.exit(1)
