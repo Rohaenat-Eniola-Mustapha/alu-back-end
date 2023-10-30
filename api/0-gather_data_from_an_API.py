@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Import libraries """
+""" Import libraries from requests and sys """
 
 import requests
 import sys
