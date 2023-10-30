@@ -25,6 +25,7 @@ Requirements:
     * Second and N next lines display the title of completed tasks: `TASK_TITLE` (with 1 tabulation and 1 space before the `TASK_TITLE`)
 
 Example:
+
 `sylvain@ubuntu$ python3 0-gather_data_from_an_API.py 2`
 `Employee Ervin Howell is done with tasks(8/20):`
      `distinctio vitae autem nihil ut molestias quo`
