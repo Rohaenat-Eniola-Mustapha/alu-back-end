@@ -1,39 +1,27 @@
 #!/usr/bin/python3
+""" Import libraries """
 
 import requests
 import sys
 
+"""Gathering data from an API """
+
 if __name__ == "__main__":
-    if len(sys.argv) != 2 or not sys.argv[1].isdigit():
-        print("Usage: python 0-gather_data_from_an_API.py <employee_id>")
-        sys.exit(1)
+    employee_id = sys.argv[1]
+    url = "https://jsonplaceholder.typicode.com/users/{}".format(employee_id)
 
-    employee_id = int(sys.argv[1])
+    todo = "https://jsonplaceholder.typicode.com/todos?userId={}"
+    todo = todo.format(employee_id)
 
-    # Define the base URL for the API
-    base_url = "https://jsonplaceholder.typicode.com"
+    user_info = requests.request("GET", url).json()
+    todo_info = requests.request("GET", todo).json()
 
-    # Fetch user data
-    user_response = requests.get(f"{base_url}/users/{employee_id}")
-    todos_response = requests.get(f"{base_url}/todos?userId={employee_id}")
+    employee_name = user_info.get("name")
+    total_tasks = list(filter(lambda x: (x["completed"] is True), todo_info))
+    task_com = len(total_tasks)
+    total_task_done = len(todo_info)
 
-    if user_response.status_code != 200:
-        print("Employee not found")
-        sys.exit(1)
+    print("Employee {} is done with tasks({}/{}):".format(employee_name,
+          task_com, total_task_done))
 
-    user_data = user_response.json()
-    todos_data = todos_response.json()
-
-    employee_name = user_data["name"]
-
-    # Calculate the number of completed tasks
-    completed_tasks = [task for task in todos_data if task["completed"]]
-    number_of_done_tasks = len(completed_tasks)
-    total_number_of_tasks = len(todos_data)
-
-    # Print employee information
-    print(f"Employee {employee_name} is done with tasks({number_of_done_tasks}/{total_number_of_tasks}):")
-
-    # Print completed task titles
-    for task in completed_tasks:
-        print(f"\t{task['title']}")
+    [print("\t {}".format(task.get("title"))) for task in total_tasks]
