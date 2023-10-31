@@ -1,13 +1,12 @@
 #!/usr/bin/python3
-
-"""Importing module"""
+"""
+Importing modules and gathering data from an API.
+"""
 
 import requests
 import sys
 
-"""Gathering data from API"""
-
-if __name__ == "__main__":
+if __name__ == "__main":
     if len(sys.argv) != 2 or not sys.argv[1].isdigit():
         print("Usage: python 0-gather_data_from_an_API.py <employee_id>")
         sys.exit(1)
@@ -32,8 +31,7 @@ if __name__ == "__main__":
     number_of_done_tasks = len(completed_tasks)
     total_number_of_tasks = len(todos_data)
 
-    print(f"Employee {employee_name} is done with tasks
-          ({number_of_done_tasks}/{total_number_of_tasks}):")
-    
+    print(f"Employee {employee_name} is done with tasks ({number_of_done_tasks}/{total_number_of_tasks}):")
+
     for task in completed_tasks:
-      print(f"\t{task['title']}")
+        print(f"\t{task['title']}")
