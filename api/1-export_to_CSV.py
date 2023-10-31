@@ -44,9 +44,11 @@ def main():
     task_list = []
 
     # Loop through TODOs and get completed tasks
-    for todo in todos:task_list.append(
-        [employee_id, username,todo["completed"], 
-         todo["title"]])
+    for todo in todos: task_list.append(
+        [employee_id, username,
+         todo["completed"], 
+         todo["title"]
+         ])
 
     # Export to CSV
     with open(f'{employee_id}.csv', mode='w', newline='') as file:
