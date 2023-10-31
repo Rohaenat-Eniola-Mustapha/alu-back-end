@@ -3,6 +3,7 @@
 Importing modules and gathering data from an API.
 """
 
+
 import requests
 import sys
 
