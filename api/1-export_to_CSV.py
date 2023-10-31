@@ -3,6 +3,7 @@
 A Python script that exports data in CSV format.
 """
 
+
 import csv
 import json
 import requests
@@ -16,7 +17,8 @@ def main():
     employee_id = sys.argv[1]
 
     # Request user info by employee ID
-    employee_info_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}')
+    employee_info_response = requests.get(
+        f'https://jsonplaceholder.typicode.com/users/{employee_id}')
 
     # Check if the request was successful
     if employee_info_response.status_code != 200:
@@ -27,7 +29,8 @@ def main():
     username = employee_info.get("username")
 
     # Request user's TODO list
-    todos_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}/todos')
+    todos_response = requests.get(
+        f'https://jsonplaceholder.typicode.com/users/{employee_id}/todos')
 
     # Check if the request was successful
     if todos_response.status_code != 200:
@@ -41,7 +44,8 @@ def main():
 
     # Loop through TODOs and get completed tasks
     for todo in todos:
-        task_list.append([employee_id, username, todo["completed"], todo["title"]])
+        task_list.append([employee_id, username,
+                           todo["completed"], todo["title"]])
 
     # Export to CSV
     with open(f'{employee_id}.csv', mode='w', newline='') as file:
@@ -57,7 +61,5 @@ def main():
 
     # Check correct output formatting
     print("Formatting: OK")
-
 if __name__ == "__main__":
     main()
-    
