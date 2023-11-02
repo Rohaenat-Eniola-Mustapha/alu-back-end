@@ -8,68 +8,43 @@ the progress of completed tasks.
 Usage: python 0-gather_data_from_an_API.py <employee_id>
 """
 
-
 import requests
 import sys
 
-
-def fetch_todo_data(employee_id):
+def get_todo_list_progress(employee_id):
     """
-    Fetch TODO list data for a specific employee.
+    Fetches and displays TODO list progress for a given employee ID.
 
     Args:
-        employee_id (int): The employee's ID.
+        employee_id (int): The ID of the employee.
 
     Returns:
-        dict: A dictionary containing TODO list information.
+        None
     """
-    base_url = "https://jsonplaceholder.typicode.com"
-    user_response = requests.get(f"{base_url}/users/{employee_id}")
-    todos_response = requests.get(f"{base_url}/todos?userId={employee_id}")
+    base_url = 'https://jsonplaceholder.typicode.com/'
 
-    if user_response.status_code != 200:
-        print("Employee not found")
+    try:
+        user_response = requests.get(f'{base_url}users/{employee_id}')
+        user_data = user_response.json()
+        employee_name = user_data['name']
+
+        todos_response = requests.get(f'{base_url}todos?userId={employee_id}')
+        todos_data = todos_response.json()
+
+        completed_tasks = [task for task in todos_data if task['completed']]
+        total_tasks = len(todos_data)
+        completed_task_count = len(completed_tasks)
+
+        print(f'Employee {employee_name} is done with tasks({completed_task_count}/{total_tasks}):')
+        for task in completed_tasks:
+            print(f'\t{task["title"]}')
+    except requests.exceptions.RequestException as e:
+        print(f"An error occurred: {e}")
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        print('Usage: python3 gather_data_from_api.py <employee_id>')
         sys.exit(1)
 
-    user_data = user_response.json()
-    todos_data = todos_response.json()
-
-    return {
-        "user_data": user_data,
-        "todos_data": todos_data
-    }
-
-
-def main():
-    """
-    Main function for the script.
-
-    The script accepts an employee ID as a command-line argument and
-    retrieves information about the employee's TODO list progress.
-    It then prints the information in the specified format.
-    """
-    if len(sys.argv) != 2 or not sys.argv[1].isdigit():
-        print("Usage: python 0-gather_data_from_an_API.py <employee_id>")
-        sys.exit(1)
-
-    employee_id = int(sys.argv[1])
-
-    data = fetch_todo_data(employee_id)
-    user_data = data["user_data"]
-    todos_data = data["todos_data"]
-
-    employee_name = user_data["name"]
-
-    completed_tasks = [task for task in todos_data if task["completed"]]
-    number_of_done_tasks = len(completed_tasks)
-    total_number_of_tasks = len(todos_data)
-
-    print(f"Employee 
-          {employee_name} is done with tasks {number_of_done_tasks}/{total_number_of_tasks}:"
-        )
-
-    for task in completed_tasks:
-        print(f"\t{task['title']}")
-
-if __name__ == "__main__":
-    main()
+    employee_id = sys.argv[1]
+    get_todo_list_progress(employee_id)
