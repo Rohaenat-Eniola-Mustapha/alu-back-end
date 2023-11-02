@@ -1,78 +1,48 @@
 #!/usr/bin/python3
 """
-A Python script that exports data in CSV format.
+Python script that exports data in CSV format.
+
+Usage: python3 export_to_CSV.py <employee_id>
 """
 
-
 import csv
+import json
 import requests
-import sys
+from sys import argv
 
 
-def fetch_todo_data(employee_id):
+def main():
     """
-    Fetch TODO list data for a specific employee.
-
-    Args:
-        employee_id (int): The employee's ID.
-
-    Returns:
-        dict: A dictionary containing TODO list information.
+    Retrieve user information and export their TODO list to a CSV file.
     """
-    base_url = "https://jsonplaceholder.typicode.com"
-    user_response = requests.get(f"{base_url}/users/{employee_id}")
-    todos_response = requests.get(f"{base_url}/todos?userId={employee_id}")
+    employee_id = argv[1]
 
-    if user_response.status_code != 200:
-        print("Employee not found")
-        sys.exit(1)
+    # Request user information by employee ID
+    user_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}')
+    user_data = json.loads(user_response.text)
+    username = user_data.get("username")
 
-    user_data = user_response.json()
-    todos_data = todos_response.json()
+    # Request user's TODO list
+    todo_response = requests.get(f'https://jsonplaceholder.typicode.com/users/{employee_id}/todos')
+    todo_data = json.loads(todo_response.text)
+    
+    # Create a dictionary to store task status (completed) in boolean format
+    tasks = {}
 
-    return {
-        "user_data": user_data,
-        "todos_data": todos_data
-    }
+    # Loop through the TODO list and get completed tasks
+    for todo in todo_data:
+        tasks.update({todo.get("title"): todo.get("completed")})
 
-
-def export_to_csv(employee_id, user_data, todos_data):
-    filename = f"{employee_id}.csv"
-
-    with open(filename, mode='w', newline='') as csv_file:
-        fieldnames = [
-            "USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"
-        ]
-        writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
-        writer.writeheader()
-        for task in todos_data:
-            writer.writerow({
-                "USER_ID": employee_id,
-                "USERNAME": user_data["name"],
-                "TASK_COMPLETED_STATUS": "True" if task[
-                    "completed"
-                    ] else "False",
-                "TASK_TITLE": task["title"]
-            })
+    # Export to CSV
+    with open(f'{employee_id}.csv', mode='w') as file:
+        csv_writer = csv.writer(file, delimiter=',', quoting=csv.QUOTE_ALL)
+        csv_writer.writerow(["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"])
+        for title, completed in tasks.items():
+            csv_writer.writerow([employee_id, username, completed, title])
 
 if __name__ == "__main__":
-    """
-    This script accepts an employee ID as a command-line argument and
-    retrieves information about the employee's TODO list progress.
-    It then exports the data to a CSV file in the specified format.
+    if len(argv) != 2:
+        print("Usage: python3 export_to_CSV.py <employee_id>")
+        exit(1)
 
-    Usage: python 0-gather_data_from_an_API.py <employee_id>
-    """
-    if len(sys.argv) != 2 or not sys.argv[1].isdigit():
-        print("Usage: python 0-gather_data_from_an_API.py <employee_id>")
-        sys.exit(1)
-
-    employee_id = int(sys.argv[1])
-
-    data = fetch_todo_data(employee_id)
-    user_data = data["user_data"]
-    todos_data = data["todos_data"]
-
-    export_to_csv(employee_id, user_data, todos_data)
-
-    print(f"Data exported to {employee_id}.csv")
+    main()
