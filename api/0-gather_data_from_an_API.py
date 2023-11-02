@@ -65,15 +65,7 @@ def main():
     total_number_of_tasks = len(todos_data)
 
     print(
-        f"Employee {
-            employee_name
-            } is done with tasks(
-                {
-                    number_of_done_tasks
-                    }/{
-                        total_number_of_tasks
-                        }
-                ):"
+        f"Employee {employee_name} is done with tasks({number_of_done_tasks}/{total_number_of_tasks}):"
         )
 
     for task in completed_tasks:
