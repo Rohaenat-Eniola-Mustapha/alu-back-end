@@ -45,7 +45,6 @@ def export_to_csv(employee_id, user_data, todos_data):
         ]
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         writer.writeheader()
-        
         for task in todos_data:
             writer.writerow({
                 "USER_ID": employee_id,
