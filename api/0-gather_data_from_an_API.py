@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 """
-This script retrieves and displays a user's
-TODO list progress using a REST API.
-
+This script retrieves and displays a user's TODO list 
+progress using a REST API.
 Usage: python3 gather_data_from_api.py <employee_id>
 """
 
@@ -39,7 +38,7 @@ def get_todo_list_progress(employee_id):
 
         # Display the progress information
         print(f"Employee {empl_name} is done with tasks({compl_count}/{ttl_count}):")
-        
+
         for task in completed_tasks:
             print(f"\t{task['title']}")
     except requests.exceptions.RequestException as e:
