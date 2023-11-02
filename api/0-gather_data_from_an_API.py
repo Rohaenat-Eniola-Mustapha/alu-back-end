@@ -39,6 +39,7 @@ def get_todo_list_progress(employee_id):
 
         # Display the progress information
         print(f"Employee {empl_name} is done with tasks({compl_count}/{ttl_count}):")
+        
         for task in completed_tasks:
             print(f"\t{task['title']}")
     except requests.exceptions.RequestException as e:
