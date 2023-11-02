@@ -1,11 +1,8 @@
 #!/usr/bin/python3
 """
-Gather data from an API using the requests module.
+This script retrieves and displays a user's TODO list progress using a REST API.
 
-This script fetches TODO list data for a specific employee ID and displays
-the progress of completed tasks.
-
-Usage: python 0-gather_data_from_an_API.py <employee_id>
+Usage: python3 gather_data_from_api.py <employee_id>
 """
 
 import requests
@@ -13,37 +10,39 @@ import sys
 
 def get_todo_list_progress(employee_id):
     """
-    Fetches and displays TODO list progress for a given employee ID.
+    Fetches and displays the TODO list progress for a given employee ID.
 
     Args:
-        employee_id (int): The ID of the employee.
+        employee_id (str): The ID of the employee.
 
     Returns:
         None
     """
-    base_url = 'https://jsonplaceholder.typicode.com/'
+    # Construct URLs for user and TODO data
+    user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
+    todo_url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
 
     try:
-        user_response = requests.get(f'{base_url}users/{employee_id}')
-        user_data = user_response.json()
-        employee_name = user_data['name']
+        # Fetch user and TODO data from the API
+        user_info = requests.get(user_url).json()
+        todo_info = requests.get(todo_url).json()
 
-        todos_response = requests.get(f'{base_url}todos?userId={employee_id}')
-        todos_data = todos_response.json()
-
-        completed_tasks = [task for task in todos_data if task['completed']]
-        total_tasks = len(todos_data)
+        # Extract employee name and completed tasks
+        employee_name = user_info.get("name")
+        completed_tasks = [task for task in todo_info if task["completed"]]
         completed_task_count = len(completed_tasks)
+        total_task_count = len(todo_info)
 
-        print(f'Employee {employee_name} is done with tasks({completed_task_count}/{total_tasks}):')
+        # Display the progress information
+        print(f"Employee {employee_name} is done with tasks({completed_task_count}/{total_task_count}):")
         for task in completed_tasks:
-            print(f'\t{task["title"]}')
+            print(f"\t{task['title']}")
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print('Usage: python3 gather_data_from_api.py <employee_id>')
+        print("Usage: python3 gather_data_from_api.py <employee_id>")
         sys.exit(1)
 
     employee_id = sys.argv[1]
