@@ -49,7 +49,9 @@ def export_to_csv(employee_id, user_data, todos_data):
             writer.writerow({
                 "USER_ID": employee_id,
                 "USERNAME": user_data["name"],
-                "TASK_COMPLETED_STATUS": "True" if task["completed"] else "False",
+                "TASK_COMPLETED_STATUS": "True" if task[
+                    "completed"
+                    ] else "False",
                 "TASK_TITLE": task["title"]
             })
 
