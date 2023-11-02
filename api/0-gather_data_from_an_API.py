@@ -7,6 +7,7 @@ Importing modules and gathering data from an API.
 import requests
 import sys
 
+
 def fetch_todo_data(employee_id):
     """
     Fetch TODO list data for a specific employee.
