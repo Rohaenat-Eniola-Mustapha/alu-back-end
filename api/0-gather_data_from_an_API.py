@@ -21,9 +21,7 @@ def get_todo_list_progress(employee_id):
     """
     # Construct URLs for user and TODO data
     user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    todo_url = f"https://jsonplaceholder.typicode.com/todos?userId={
-        employee_id
-        }"
+    todo_url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
 
     try:
         # Fetch user and TODO data from the API
