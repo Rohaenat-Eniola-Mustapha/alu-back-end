@@ -34,6 +34,7 @@ def fetch_todo_data(employee_id):
         "todos_data": todos_data
     }
 
+
 def main():
     """
     Main function for the script.
@@ -58,7 +59,17 @@ def main():
     number_of_done_tasks = len(completed_tasks)
     total_number_of_tasks = len(todos_data)
 
-    print(f"Employee {employee_name} is done with tasks({number_of_done_tasks}/{total_number_of_tasks}):")
+    print(
+        f"Employee {
+            employee_name
+            } is done with tasks(
+                {
+                    number_of_done_tasks
+                    }/{
+                        total_number_of_tasks
+                        }
+                ):"
+        )
 
     for task in completed_tasks:
         print(f"\t{task['title']}")
