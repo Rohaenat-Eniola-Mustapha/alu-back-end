@@ -4,8 +4,8 @@ A Python script that exports data in CSV format.
 """
 
 
-import requests
 import csv
+import requests
 import sys
 
 
