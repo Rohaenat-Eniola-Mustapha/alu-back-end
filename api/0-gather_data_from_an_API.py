@@ -8,6 +8,7 @@ import urllib.request
 import json
 import sys
 
+
 if __name__ == "__main__":
     if len(sys.argv) != 2 or not sys.argv[1].isdigit():
         print("Usage: python 0-gather_data_from_an_API.py <employee_id>")
