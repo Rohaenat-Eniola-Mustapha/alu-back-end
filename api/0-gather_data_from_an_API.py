@@ -1,6 +1,11 @@
 #!/usr/bin/python3
 """
-Importing modules and gathering data from an API.
+Gather data from an API using the requests module.
+
+This script fetches TODO list data for a specific employee ID and displays
+the progress of completed tasks.
+
+Usage: python 0-gather_data_from_an_API.py <employee_id>
 """
 
 
