@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 """
-This script retrieves and displays a user's TODO list progress using a REST API.
+This script retrieves and displays a user's
+TODO list progress using a REST API.
 
 Usage: python3 gather_data_from_api.py <employee_id>
 """
 
 import requests
 import sys
+
 
 def get_todo_list_progress(employee_id):
     """
@@ -20,7 +22,9 @@ def get_todo_list_progress(employee_id):
     """
     # Construct URLs for user and TODO data
     user_url = f"https://jsonplaceholder.typicode.com/users/{employee_id}"
-    todo_url = f"https://jsonplaceholder.typicode.com/todos?userId={employee_id}"
+    todo_url = f"https://jsonplaceholder.typicode.com/todos?userId={
+        employee_id
+        }"
 
     try:
         # Fetch user and TODO data from the API
@@ -34,7 +38,10 @@ def get_todo_list_progress(employee_id):
         total_task_count = len(todo_info)
 
         # Display the progress information
-        print(f"Employee {employee_name} is done with tasks({completed_task_count}/{total_task_count}):")
+        print(
+            f"Employee {employee_name} is done with tasks
+            ({completed_task_count}/{total_task_count}):"
+            )
         for task in completed_tasks:
             print(f"\t{task['title']}")
     except requests.exceptions.RequestException as e:
