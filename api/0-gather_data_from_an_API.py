@@ -34,13 +34,12 @@ def get_todo_list_progress(employee_id):
         # Extract employee name and completed tasks
         employee_name = user_info.get("name")
         completed_tasks = [task for task in todo_info if task["completed"]]
-        completed_task_count = len(completed_tasks)
-        total_task_count = len(todo_info)
+        compl_count = len(completed_tasks)
+        ttl_count = len(todo_info)
 
         # Display the progress information
         print(
-            f"Employee {employee_name} is done with tasks
-            ({completed_task_count}/{total_task_count}):"
+            f"Employee {employee_name} is done with tasks({compl_count}/{ttl_count}):"
             )
         for task in completed_tasks:
             print(f"\t{task['title']}")
