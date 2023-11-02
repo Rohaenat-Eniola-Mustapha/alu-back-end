@@ -40,7 +40,9 @@ def export_to_csv(employee_id, user_data, todos_data):
     filename = f"{employee_id}.csv"
 
     with open(filename, mode='w', newline='') as csv_file:
-        fieldnames = ["USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"]
+        fieldnames = [
+            "USER_ID", "USERNAME", "TASK_COMPLETED_STATUS", "TASK_TITLE"
+        ]
         writer = csv.DictWriter(csv_file, fieldnames=fieldnames)
         
         writer.writeheader()
